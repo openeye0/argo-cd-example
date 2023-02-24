@@ -1,2 +1,2 @@
 # argo-cd-example
-testing first time
+testing 2nd time
