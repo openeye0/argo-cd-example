@@ -95,3 +95,16 @@ resource "kubectl_manifest" "my-nginx-app" {
     yaml_body = element(data.kubectl_file_documents.my-nginx-app.documents, count.index)
     override_namespace = "argocd"
 }
+
+data "kubectl_file_documents" "my-helm-guest-app" {
+    content = file("../manifests/argocd/my-helm-guest-app.yaml")
+}
+
+resource "kubectl_manifest" "my-helm-guest-app" {
+    depends_on = [
+      kubectl_manifest.argocd,
+    ]
+    count     = length(data.kubectl_file_documents.my-helm-guest-app.documents)
+    yaml_body = element(data.kubectl_file_documents.my-helm-guest-app.documents, count.index)
+    override_namespace = "argocd"
+}
